@@ -6,17 +6,17 @@ Author - Chris Cosgrove
 ### Hardware assembly
 #### Microcontroller unit assembly
 ##### Assembling the [Adafruit Feather M0 LoRa](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module) microcontroller
-![](/Users/chris/Desktop/snowBot/img/feather_M0_LoRa_1.JPG)
+![](./img/feather_M0_LoRa_1.JPG)
 
 Assembled [Adafruit Feather M0 LoRa](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module) with stacking pins
 
-![](/Users/chris/Desktop/snowBot/img/feather_M0_LoRa_2.JPG)
+![](./img/feather_M0_LoRa_2.JPG)
 
 Side view with stacking header pins showing.
 
 The first step to building the complete microcontroller unit is to solder [stacking headers](https://www.adafruit.com/product/2830) onto the [Adafruit Feather M0 LoRa](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module). These headers allow the additional Adafruit Feather components to stack above the microcontroller, and for the microcontroller to fit into the terminal block. The headers line up with the outer row of pins on the microcontroller’s PCB - see images and instructions in the above links for further details and good suggestions on how to solder.
 
-![](/Users/chris/Desktop/snowBot/img/feather_M0_LoRa_3.JPG)
+![](./img/feather_M0_LoRa_3.JPG)
 
 Inverted microcontroller. [Arrow points to the uFL SMT Antenna Connector.](https://www.amazon.com/Adafruit-uFL-Antenna-Connector-ADA1661/dp/B06VVG9VM7)
 
@@ -29,17 +29,17 @@ Lastly, label the microcontroller with a unique number, or letter/number combina
 
 ##### Assembling the [Adafruit Feather Precision RTC](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module) shield 
 
-![](/Users/chris/Desktop/snowBot/img/feather_RTC_1.JPG)
+![](./img/feather_RTC_1.JPG)
 
 Assembled [Adafruit Feather Precision RTC](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module) with coin cell battery installed.
 
-![](/Users/chris/Desktop/snowBot/img/feather_RTC_2.JPG)
+![](./img/feather_RTC_2.JPG)
 
 Inverted assembled [Adafruit Feather Precision RTC](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module) showing male pins.
 
 As with the microcontroller above, the first step in assembling the [Adafruit Feather Precision RTC](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module) (RTC = Real Time Clock) is to solder [stacking headers](https://www.adafruit.com/product/2830) into their corresponding pins (see images above). At this point you can also put in the [CR1220 coin cell battery](https://www.adafruit.com/product/380) into its holder.
 
-![](/Users/chris/Desktop/snowBot/img/feather_RTC_3.JPG)
+![](./img/feather_RTC_3.JPG)
 
 Assembled [Adafruit Feather Precision RTC](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module). Arrows point to the location of a wire from pin 9 to the Int (interrupt pin)
 
@@ -49,11 +49,11 @@ If you have the RTC with the button facing you, pin 9 is the 4th pin away from y
 
 ##### Assembling the [Adafruit Feather Datalogger Shield](https://www.adafruit.com/product/2922)
 
-![](/Users/chris/Desktop/snowBot/img/feather_datalogger_1.JPG)
+![](./img/feather_datalogger_1.JPG)
 
 Assembled [Adafruit Feather Datalogger Shield](https://www.adafruit.com/product/2922), note the inserted microSD card, short, non-stacking headers, and empty coin-cell battery holder
 
-![](/Users/chris/Desktop/snowBot/img/feather_datalogger_3.JPG)
+![](./img/feather_datalogger_3.JPG)
 
 Side-view of the assembled [Adafruit Feather Datalogger Shield](https://www.adafruit.com/product/2922), note the clipped off male headers of the SCL/SDA pins
 
@@ -66,7 +66,7 @@ You should be wondering why we don’t insert a coin cell battery into this shie
 
 ##### Completing the SnowBot microcontroller unit with a [Terminal Block Breakout](https://www.adafruit.com/product/2926)
 
-![](/Users/chris/Desktop/snowBot/img/feather_assembled_unit.JPG)Complete microcontroller unit.
+![](./img/feather_assembled_unit.JPG)Complete microcontroller unit.
 
 The microcontroller unit is assembled by stacking the Feather M0 LoRa Microcontroller on top of a [Terminal Block Breakout](https://www.adafruit.com/product/2926) first, then stacking the Precision RTC shield above the Microcontroller, and lastly the Datalogger shield atop the RTC - see above image. This order is important and take extra care to make sure all of the male headers line up properly with their female equivalents! The Terminal Block allows easy attachment of the various sensors used by the SnowBot, as well as the RockBlock.
 
@@ -76,7 +76,7 @@ The microcontroller unit is assembled by stacking the Feather M0 LoRa Microcontr
 
 ##### Attaching the [MaxBotix® MB7374 HRXL-MaxSonar-WRST7 Ultrasonic Precision Range Finder ](https://www.maxbotix.com/Ultrasonic_Sensors/MB7374.htm)
 
-![](/Users/chris/Desktop/snowBot/img/maxbotix.JPG)
+![](./img/maxbotix.JPG)
 
 ##### [MB7374 HRXL-MaxSonar-WRST7 Ultrasonic Precision Range Finder](https://www.maxbotix.com/Ultrasonic_Sensors/MB7374.htm)
 
@@ -105,7 +105,7 @@ The red/black strands hence power the sensor, the green strand transmits the out
 
 Note that different pins can be used for reading the pulse width output and turning the sensor on and off - these pins just correspond to the example code uploaded here.
 
-![](/Users/chris/Desktop/snowBot/img/maxbotix_wiring.JPG)
+![](./img/maxbotix_wiring.JPG)
 
 Wiring for the [MB7374 HRXL-MaxSonar-WRST7 Ultrasonic Precision Range Finder](https://www.maxbotix.com/Ultrasonic_Sensors/MB7374.htm) to the Terminal Block. 
 
@@ -119,7 +119,7 @@ Wiring for the [MB7374 HRXL-MaxSonar-WRST7 Ultrasonic Precision Range Finder](ht
 
 ### Using the example SnowBot program
 
-The example SnowBot program (insert a link to Github - working off sb03_02Feb21_1hrSample_1hrLoRa_6hrRckBlk.ino) is field-tested and stable. It has built-in flexibility for different sampling, as well as LoRa and Iridium data transmission, frequencies and can support 10s of SnowBots in a ‘star’ type network topology. A star topology means that there is one central node, or ‘base-station’, that all the other nodes communicate with but there is no communication between non-base-station nodes. This is opposed to a mesh-type topology where all nodes are connected and data can be relayed throughout the network. At the time of writing a mesh version of the program is in development.
+The [example SnowBot program](https://github.com/chrislcosgrove/snowBot/blob/main/code/snowBot_example/snowBot_example.ino) is field-tested and stable. It has built-in flexibility for different sampling, as well as LoRa and Iridium data transmission, frequencies and can support 10s of SnowBots in a ‘star’ type network topology. A star topology means that there is one central node, or ‘base-station’, that all the other nodes communicate with but there is no communication between non-base-station nodes. This is opposed to a mesh-type topology where all nodes are connected and data can be relayed throughout the network. At the time of writing a mesh version of the program is in development.
 
 There are a great many good resources available online in basic Arduino programming – if this project is your first experience with the platform it is recommended that you review some tutorials for beginners - see https://www.arduino.cc/en/Tutorial/HomePage or https://www.makerspaces.com/arduino-uno-tutorial-beginners/ for example. On these pages, you will find instructions for how to load a program onto a microcontroller, install libraries, as well as basic guidance on the Arduino programming language. In these instructions, we assume that users have experience with these tasks and instead go through the details of the example SnowBot program
 
