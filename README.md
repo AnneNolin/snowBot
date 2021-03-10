@@ -1,9 +1,13 @@
-## Instructions for assembling a SnowBot
-Author - Chris Cosgrove
+## SnowBot overview
 
-### SnowBot overview
+Meteorological data scarcity in high-latitude and high-altitude areas is a significant challenge in understanding the impacts of a warming climate on seasonal snowcover; a critical component of regional hydrology and ecosystem functions. The development of low-cost, open- source wireless sensor networks (WSN) however offers an opportunity to address data gaps in these regions and widen the availability of environmental monitoring to non-traditional audiences. Here we present a WSN, 'SnowBot' for snow-related applications built on the Arduino platform and utilizing Long Range Radio (LoRa) for two-way, local inter-node communication, and the Iridium constellation of satellites for data transmission from any global location with a clear view of the sky. The electronic hardware in each LoRa-enabled sensor node in our WSN costs approximately 270 USD, the addition of an Iridium modem in a ‘base-station’ configuration costs an additional ​250 USD and allows easy integration with Google Sheets, or other services, for near real-time data dissemination. As SnowBots are financially accessible, freely available to replicate, and have data streams that can be easily made publicly accessible, we envision their deployment in developing countries and/or in public-facing applications.
+
+## Instructions for assembling a SnowBot
 
 ### Hardware assembly
+
+The following section details how to assemble the hardware components of a SnowBot that works with the [example code](https://github.com/chrislcosgrove/snowBot/blob/main/code/snowBot_example/snowBot_example.ino). 
+
 #### Microcontroller unit assembly
 ##### Assembling the [Adafruit Feather M0 LoRa](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module) microcontroller
 ![](./img/feather_M0_LoRa_1.JPG)
@@ -121,7 +125,7 @@ Wiring for the [MB7374 HRXL-MaxSonar-WRST7 Ultrasonic Precision Range Finder](ht
 
 The [example SnowBot program](https://github.com/chrislcosgrove/snowBot/blob/main/code/snowBot_example/snowBot_example.ino) is field-tested and stable. It has built-in flexibility for different sampling, as well as LoRa and Iridium data transmission, frequencies and can support 10s of SnowBots in a ‘star’ type network topology. A star topology means that there is one central node, or ‘base-station’, that all the other nodes communicate with but there is no communication between non-base-station nodes. This is opposed to a mesh-type topology where all nodes are connected and data can be relayed throughout the network. At the time of writing a mesh version of the program is in development.
 
-There are a great many good resources available online in basic Arduino programming – if this project is your first experience with the platform it is recommended that you review some tutorials for beginners - see https://www.arduino.cc/en/Tutorial/HomePage or https://www.makerspaces.com/arduino-uno-tutorial-beginners/ for example. On these pages, you will find instructions for how to load a program onto a microcontroller, install libraries, as well as basic guidance on the Arduino programming language. In these instructions, we assume that users have experience with these tasks and instead go through the details of the example SnowBot program
+There are a great many good resources available online in basic Arduino programming – if this project is your first experience with the platform it is recommended that you review some tutorials for beginners - see https://www.arduino.cc/en/Tutorial/HomePage or https://www.makerspaces.com/arduino-uno-tutorial-beginners/ for example. On these pages, you will find instructions for how to load a program onto a microcontroller, install libraries, as well as basic guidance on the Arduino programming language. In these instructions, we assume that users have experience with these tasks and instead go through the details of the example SnowBot program.
 
 ##### Example program code structure
 
@@ -138,7 +142,8 @@ The code in the SnowBot program example is however structured in the following s
 
 - Datagram set-up; specific object instantiation depending on whether the current SnowBot is a node or a base stationGlobal variables; declaration of zeroed, or empty, global variables for data storage and other functionality
 - Structure to store and send data; a data-structure where measured variables can be compressed into byte formatFunction prototypes; list of functions included in the program
-- Set-up; code that initiates each time the microcontroller is startedLoop; code that loops following the set-up
+- Set-up; code that initiates each time the microcontroller is started
+- Loop; code that loops following the set-up
 - Functions; supporting functions for code in the set-up and loop
 
 What follows are more detailed explanations of the most pertinent sections including commentary on design decisions and areas with scope to develop further.
