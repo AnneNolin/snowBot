@@ -145,3 +145,27 @@ What follows are more detailed explanations of the most pertinent sections inclu
 
 ##### Constants
 
+```c++
+/****************************
+Constants
+****************************/
+#define NODE_STATION   false    // Set if node is just to transmit messages by LoRa
+#define BASE_STATION   true     // Set if RockBlock is installed and you wish to listen for LoRa messages
+#define DEBUG          false    // Output debug messages to Serial Monitor
+#define DEPLOY         true     // Disable debugging messages for deployment
+#define DIAGNOSTICS    false    // Output Iridium diagnostic messages to Serial Monitor
+#define ROCKBLOCK      true     // If base station define whether RockBlock is used
+```
+
+The constants defined at the start of the program allow you to easily swap, using the boolean argument `true` or `false`, between defining the SnowBot as a 'Node' `#define NODE_STATION ` , or as a 'Base Station' `#define BASE_STATION` (see SnowBot overview above), setting up the SnowBot in a debug mode `#define DEBUG`, in deployment mode `#define DEPLOY`, print RockBlock diagnostics to the serial monitor `#define DIAGNOSTICS`, and specify whether a RockBlock is being used `#define ROCKBLOCK`.
+
+Throughout the program you can identify where these constants operate on specific code blocks by searching for `#if` and `#endif` sections followed by the constant name. For example, in the below code block if the `NODE_STATION` constant is set to `true` the program will set-up the LoRa radio datagram manager so that the SnowBot sends messages to be received, rather than listens for messages, as in the case of the base station.
+
+```c++
+#if NODE_STATION
+RHReliableDatagram manager(rf95, NODE_ADDRESS);
+#endif
+```
+
+The `DEBUG` constant both sets the first alarm to wake the SnowBot at the turn of the next minute, instead of at the turn of the hour, and allows Serial printing of various other information. The `BASE_STATION` constant sets up the SnowBot to receive LoRa messages from other nodes. The `ROCKBLOCK` function, when used in conjunction with the `BASE_STATION` function enables RockBlock operation. **Note that the program will not work correctly if** `BASE_STATION` **or** `NODE_STATION` **are both defined as** `true` **or** `false`**, likewise** `DEBUG` **and** `DEPLOY`**.** We recommend reviewing the code blocks corresponding to each constant definition to get a deeper sense of how they operate.
+
