@@ -174,3 +174,143 @@ RHReliableDatagram manager(rf95, NODE_ADDRESS);
 
 The `DEBUG` constant both sets the first alarm to wake the SnowBot at the turn of the next minute, instead of at the turn of the hour, and allows Serial printing of various other information. The `BASE_STATION` constant sets up the SnowBot to receive LoRa messages from other nodes. The `ROCKBLOCK` function, when used in conjunction with the `BASE_STATION` function enables RockBlock operation. **Note that the program will not work correctly if** `BASE_STATION` **or** `NODE_STATION` **are both defined as** `true` **or** `false`**, likewise** `DEBUG` **and** `DEPLOY`**.** We recommend reviewing the code blocks corresponding to each constant definition to get a deeper sense of how they operate.
 
+##### Libraries
+
+```c++
+/****************************
+Libraries
+****************************/
+#include <Arduino.h>            // https://github.com/arduino/ArduinoCore-samd
+#include <ArduinoLowPower.h>    // https://github.com/arduino-libraries/ArduinoLowPower
+#include <DS3232RTC.h>          // https://github.com/JChristensen/DS3232RTC
+#include <Statistic.h>          // https://github.com/RobTillaart/Arduino/tree/master/libraries/Statistic
+#include <SdFat.h>              // https://github.com/greiman/SdFat
+#include <SPI.h>                // https://www.arduino.cc/en/Reference/SPI
+#include <Wire.h>               // https://www.arduino.cc/en/Reference/Wire
+#include <RH_RF95.h>            // https://github.com/PaulStoffregen/RadioHead
+#include <RHReliableDatagram.h> // https://github.com/PaulStoffregen/RadioHead
+#include <SHT1x.h>              // https://github.com/practicalarduino/SHT1x
+#include <math.h>               // https://www.nongnu.org/avr-libc/user-manual/group__avr__math.html
+
+#if BASE_STATION
+    #include <IridiumSBD.h>     // https://github.com/mikalhart/IridiumSBD
+#endif
+```
+
+The above libraries need to be installed by either using Arduino's Library Manager, adding a zip file, manually, or otherwise - see [here](https://www.arduino.cc/en/guide/libraries) for more details. 
+
+##### Pin definitions
+
+```c++
+/***************************
+Pin definitions
+****************************/
+#define VBAT_PIN        A7      // Battery
+#define SD_Pin          10      // SD Card
+#define RFM95_CS        8       // LoRa Radio
+#define RFM95_RST       4       // LoRa Radio
+#define RFM95_INT       3       // LoRa Radio
+#define WAKE_PIN        6       // RTC Wake Pin - attach DS3231 RTC Interrupt pin to this pin on Feather
+#define MB_pwPin        5       // Maxbotix pulseWidth pin
+#define MB_sleepPin     11      // Maxbotix sleep pin
+#define SHT_clockPin    12      // SHT10
+#define SHT_dataPin     13      // SHT10
+#define LED_PIN         13      // LED pin
+
+#if BASE_STATION
+    #define RB_SLEEP_PIN    9       // Rockblock Sleep Pin
+    #define IridiumSerial   Serial1 // RockBlock Serial
+#endif
+```
+
+The above pin definitions are correct and tested for the hardware outlined in the  header of the SnowBot example program and BOM, and assembled per the instructions above. If you are using a different development board, or sensors, you will likely need to change these according to your set-up.
+
+##### Object Instantiations
+
+```c++
+/****************************
+Object instantiations
+****************************/
+SHT1x           sht1x(SHT_dataPin, SHT_clockPin);       // SHT10
+SdFat           sd;                                     // File system object
+SdFile          file;                                   // Log file
+DS3232RTC       myRTC(false);                           // Tell constructor not to initialize the I2C bus
+time_t          t;
+unsigned long   unixtime;
+time_t          alarmTime;
+tmElements_t    tm;
+
+#if BASE_STATION
+  IridiumSBD      modem(IridiumSerial, RB_SLEEP_PIN);     // RockBlock
+#endif
+
+#define RF95_FREQ 915.0                              // Define LoRa frequency
+RH_RF95 rf95(RFM95_CS, RFM95_INT);                   // Singleton instance of the radio driver
+```
+
+These objects are instantiated to carry out important functions relating to reading the sensors, storing data, handling time, and transmitting data via LoRa and RockBlock. If you are using the same hardware as outlined in the BOM and header of the example program you should not need to change these. However, according to geographical location you will need to change the LoRa frequency - see [here](https://en.wikipedia.org/wiki/LoRa). The SnowBot example program is set up to operate in North America with a LoRa frequency of 915 MHz - this line `#define RF95_FREQ 915.0 ` sets the desired frequency in MHz.
+
+##### Statistic Objects
+
+```c++
+/****************************
+Statistic objects
+****************************/
+Statistic batteryStats;         // Battery voltage statistics
+Statistic humidityStats;        // Humidity statistics
+Statistic extTemperatureStats;  // Temperature statistics
+Statistic rtcStats;             // Real-time clock statistics
+Statistic MaxbotixStats_av;     // Maxbotix average distances
+Statistic MaxbotixStats_std;    // Maxbotix std distances
+Statistic MaxbotixStats_max;    // Maxbotix max distances
+Statistic MaxbotixStats_min;    // Maxbotix min distances
+Statistic MaxbotixStats_nan;    // Maxbotix nan samples
+```
+
+The Statistic library allows creation of objects that can store arrays of data, for example sensor measurements, that you can then run simple statistical tests on. In the SnowBot example program they're used to hold sensor measurements taken at intervals, e.g. 5 minutes, that can then be averaged or queried for their minimum, maximum, standard deviation, or count, over a specified period, e.g. 1 hour. This gives some flexibility in sampling and data transmission strategy, as described in more detail below. To best understand how the Statistic objects work in the program, search for each of them, e.g. hit Ctrl+F and type in `humidityStats`, and follow how and when data are added to the object, what and when statistical queries are made of the objects, and when data is cleared from the object.
+
+**Note on MaxBotix measurements.** Ultrasonic distance sensors are well-known to produce noisy data when measuring the distance to the snow surface, especially in windy or otherwise disturbed conditions. Hence, for the purposes of improving quality control of the MaxBotix distance readings, statistic objects are created to contain the average, standard deviation, maximum and minimum distance measured at each sampling interval. The function to operate and read the MaxBotix at each sampling interval, allows for 30 distance measurements over ~5 seconds to reduce the effect of erroneous measurements. The average, standard deviation, maximum and minimum distance from these 30 readings is then found from a local statistics object created within the function and stored in their corresponding global statistic objects (listed above).  Useful indicators of measurement quality can then be derived from data averaged over a longer period, e.g. an hour (see section on User defined global variable declarations below for more detail on sample intervals and average/transmission intervals). Additionally, the MaxBotix function also filters out any measurements outside of the working range of the instrument (550 to 4950 mm), labelling them as a NaN. The count of NaNs at each measurement interval is kept in a further statistics object `MaxbotixStats_nan` and is a useful indicator of measurement stability - fewer NaNs and a lower standard deviation indicate a higher quality measurement. We encourage users to explore each of the sensor reading functions to better understand how the program operates.
+
+
+
+##### User defined global variables
+
+```c++
+/****************************
+User defined global variable declarations
+****************************/
+char*                 node_name             = "s03";        // Node name
+unsigned int          node_number           = 3;            // Node number
+unsigned int          base_station_number   = 1;            // Number of snow bot for datagram (100 + node)
+unsigned int          total_nodes           = 5;            // Total nodes in the network
+
+unsigned int          samplesPerFile        = 8640;         // Maximum samples stored in a file before new log file creation (Default: 30 days * 288 samples per day)
+unsigned int          listen                = 45;           // Time in seconds to listen for incoming or sending outgoing LoRa messages
+
+bool                  hourlySend            = true;         // Boolean to set if sending at specific hours instead of a user given interval 
+unsigned int          send_hours[] = {0, 6, 12, 18};        // Iridium sending hours
+unsigned int          send_hours_size = sizeof(send_hours) / sizeof(long);
+
+unsigned int          sampleInterval        = 3600;         // Sleep duration (in seconds) between data sample acquisitions.
+unsigned int          averageInterval       = 1;            // Number of samples to be averaged for each LoRa transmission.
+unsigned int          transmitInterval      = 6;            // Number of average intervals to be included in a single transmission (340 byte limit). Each node LoRa
+															                              // message averaged sample is 24 bytes, so  if you multiply 24 (no. of bytes) by number of nodes by the
+															                              // transmitInterval it should be less than 340 to include all the data.
+															                              // E.g. for 5 nodes one average interval (assuming all LoRa messages are received) would equal 120 bytes
+															                              // (5*24). Therefore you could have a transmitInterval of 2 to get 2 complete average intervals of data sent
+															                              // in a 340 byte RockBlock message.
+
+unsigned int          maxRetransmitCounter  = 0;            // Maximum failed data transmissions to reattempt in a single message (340 byte limit). Default: 10
+
+
+#define NODE_ADDRESS  node_number           // Node number is local LoRa address
+#define BASE_ADDRESS  base_station_number   // Number of station that is LoRa base station w/ RockBlock
+```
+
+The code section 'User defined global variables' is the most important in the [SnowBot example program](https://github.com/chrislcosgrove/snowBot/blob/main/code/snowBot_example/snowBot_example.ino). Here you set the identification of the SnowBot and specify its data sampling and data transmission strategy. What follows is a more detailed explanation of the variables and how they function.
+
+- `node_name` - this is the SnowBot's identification number in character format, i.e. specified within quotes like `"<name>"`. This will be used to name the .csv files storing the data on the microSD card. In the example program, `"s03"` is used to indicate 'SnowBot #3'.
+- `node_number` - this is the number of the SnowBot and is always in an integer format. It is used in the program for identification purposes as the first item in the row of data written to the SD card at each sampling interval. It is also the first item in the data transmission structure, which will be decoded and written on the base station's SD card if the current SnowBot is just a normal sampling node. It is also used as the address for the node in the Reliable Datagram manager to transmit data via LoRa so hence must be unique! The Reliable Datagram, in theory, can handle 256 seperate SnowBot nodes, though this would need to be tested extensively for reliability before deployment.
+- `base_station_number` - this is the number of the SnowBot which will act as the base station, collecting sampling nodes' data and sending it via Iridium. This number **must** be consistent across the network of SnowBots as it serves as the address in the Reliable Datagram manager for LoRa transmissions. If the current SnowBot is the base station keep tis the same as the `node_number`.
+- `total_nodes` - this is the total number of SnowBots deployed in the network and functions alongside the chosen `transmitInterval` to ensure that messages are sent before the RockBlock's 340 byte limit for 1 message is reached, see below for more details.
+

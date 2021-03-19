@@ -105,9 +105,9 @@ Statistic MaxbotixStats_nan;    // Maxbotix nan samples
 User defined global variable declarations
 ****************************/
 char*                 node_name             = "s03";        // Node name
-unsigned int          node                  = 3;            // Node number
-unsigned int          node_address          = 103;          // Address of snow bot for datagram (100 + node)
-unsigned int          total_nodes           = 3;            // Total nodes in the network
+unsigned int          node_number           = 3;            // Node number
+unsigned int          base_station_number   = 1;            // Number of snow bot for datagram (100 + node)
+unsigned int          total_nodes           = 5;            // Total nodes in the network
 
 unsigned int          samplesPerFile        = 8640;         // Maximum samples stored in a file before new log file creation (Default: 30 days * 288 samples per day)
 unsigned int          listen                = 45;           // Time in seconds to listen for incoming or sending outgoing LoRa messages
@@ -128,8 +128,8 @@ unsigned int          transmitInterval      = 6;            // Number of average
 unsigned int          maxRetransmitCounter  = 0;            // Maximum failed data transmissions to reattempt in a single message (340 byte limit). Default: 10
 
 
-#define NODE_ADDRESS  node_address // Node number is local LoRa address
-#define BASE_ADDRESS  103          // Number of station that is LoRa base station w/ RockBlock
+#define NODE_ADDRESS  node_number           // Node number is local LoRa address
+#define BASE_ADDRESS  base_station_number   // Number of station that is LoRa base station w/ RockBlock
 
 /****************************
 Datagram set-up
