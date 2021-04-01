@@ -1,3 +1,7 @@
+## SnowBot overview
+
+Meteorological data scarcity in high-latitude and high-altitude areas is a significant challenge in understanding the impacts of a warming climate on seasonal snowcover; a critical component of regional hydrology and ecosystem functions. The development of low-cost, open- source wireless sensor networks (WSN) however offers an opportunity to address data gaps in these regions and widen the availability of environmental monitoring to non-traditional audiences. Here we present a WSN, 'SnowBot' for snow-related applications built on the Arduino platform and utilizing Long Range Radio (LoRa) for two-way, local inter-node communication, and the Iridium constellation of satellites for data transmission from any global location with a clear view of the sky. The electronic hardware in each LoRa-enabled sensor node in our WSN costs approximately 270 USD, the addition of an Iridium modem in a ‘base-station’ configuration costs an additional ​250 USD and allows easy integration with Google Sheets, or other services, for near real-time data dissemination. As SnowBots are financially accessible, freely available to replicate, and have data streams that can be easily made publicly accessible, we envision their deployment in developing countries and/or in public-facing applications.
+
 ## Instructions for assembling a SnowBot
 
 ### Hardware assembly
