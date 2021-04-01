@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "snowbot-sbd",
+  "private_key_id": "ce558ad1e7902067747cb482ae2707f9adf7f7e3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC/9nTJTOAPPuWH\niI6AZgcBkwob4FVJxjOZdyYj3WJtiaIZW8nQ0vQoO2X8aw2xY2iPB6mEf7+joKyH\nIdUorXeAPEyVeRF0lKvpuci/rv6jUeEPjRAaLBebYKsc8Q+v/T3orgDtSfuqyswf\nfe43gTRKTWkn54a7ps1ssyUpywKaXOAVSuTOyWEKKOiwgI+pqMFA1C5NWZDG9hnv\nN18PWBk7zFidNvU3u5CXT1krSsucCZC2gRrMqNeQKlbBA5dJ9NzkRoGxFqz+jFlo\n9l4h5WzUtYHAHutULJPNjHSF13s3mW5eDqD2+QfiBWDsIrNbf3hQk245emfK7zre\n2vKXFM7ZAgMBAAECggEADC4dXaDCB6ELG8Pwnjl2fnwmmyAP65vv9zkTrvR16G6p\nS59VIoVF1pI+17rVM824KOcooTMhCbTKJIm+qxOU7nhJk2xmXzWsmxgmxxW1GT1f\nRVlnqRTmIkbTm4UCLeIovhsqnyzxyfXYVo7q7u8XKcpYWh7EVtnv+ZvFNUBNk1Xc\nunkDnDys6BNadhEu3BAbYoctIM8M/CE257TDrOwwAurrfDmPKbb/Ah+hBa9kUpZv\nGAuCdP6wBwCcSDW/8sDuIVKuf96hBq+VpcN7XVYiCPnDTSo7DkYAVYPFo4nte62h\n8lZgVnpNwEJfBxbIPLa7x5Xy5PQD7gzw7cw1IIynTwKBgQDhSCabNsdQlINFiMaQ\nyd8vZOE8QF74Q4J2eP1VRRTI7+o3rDwRXYMKwK+8xyvwGRJ2RMDdWLx3UmTIu365\nNgReKFX/CVfMD51qBDrSEJClK90p+hkIJxldCxvRaEtOMB5JKOmb+n5sizNdUGNc\nDFPWAEG6ZwU2pHOHV9lB+jjIawKBgQDaIz6NVSIgEV8kK1UQRKI3foqUBNUyJT1W\nh+TCVKEarXSr8PAOuQq3FMseNkiWdz5lHwxU3k7gAM2JOM/hezEshOD3yLjft8Zr\nY+gftxfu2uvXWWb9NUSnx2yoK7qyy1F7TPMTrq5m9WKmv29MVFAP4DZkSx4Z3wMq\nwn+lxmomywKBgQDeA0bYq/Fc/h8oRZS6V9e1U0uNHzr4mz9VFgNDJ2NGavl9iCVi\nT6+2xxHpjrdEVNEW8MbI3IxPY0mjcPN//zXqvQGS51g46CKPuj9liaGixUmd9rT4\njd+3DB2MD6Y3FcCjBMjESOaSfdRO38wriJKOUY507tX6dbLM7MxU8w1GpQKBgBhg\nr/DjfrjOuC82mH8E7Iv/HEWGdLzx5HTzIuGEy6xLjipY9rruewAS1tA9iMcn9FUg\nryQc4/usm0umibTNK6WqA+otCFwYEZiWxa4lrAsJdCnQ1+2cMlv9sWrp2Cd7CVQa\nOWANuXfQHII+CpYhJgFgMTPsISULAzOYIOPJ1LsZAoGAZjFCEwybxHjIzJr5TlSO\nvQkQaUzzXiwpQLwN+svM8DJbaQb9H3IhhlgQ2o4lwJzAzZL2Y1h0jW3dHZiwwQXg\nrHc1YBqHSTy0tQjQLKa7fkBCwQLDIegc2fy9KElLStqoJRWaYDj9PRMlOpov/EKU\ndMfElVgThiAf1O90TLikTjs=\n-----END PRIVATE KEY-----\n",
+  "client_email": "snowbot-sbd@snowbot-sbd.iam.gserviceaccount.com",
+  "client_id": "111398913768245569924",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/snowbot-sbd%40snowbot-sbd.iam.gserviceaccount.com"
+}

@@ -1,6 +1,6 @@
 /***************************
 Title:      SnowBot Test Deploy Script
-Date:       02Feb2021
+Date:       30Mar2021
 Author:     Chris Cosgrove
 
 Components:
@@ -16,8 +16,8 @@ Comments:
 Code draws gratefully on the work of Adam Garbo's Cryologger Automatic Weather Station
 https://github.com/adamgarbo/Cryologger_Automatic_Weather_Station
 
-Code samples at 1 hour intervals, hourly averaged data is sent by LoRa to a base station
-(node 3), data is sent by RockBlock every six hours.
+Code samples at 10 minute intervals, hourly averaged data is sent by LoRa to a base station
+(node 3), data is sent by RockBlock every 6 hours.
 ****************************/
 
 /****************************
@@ -106,8 +106,8 @@ User defined global variable declarations
 ****************************/
 char*                 node_name             = "s03";        // Node name
 unsigned int          node_number           = 3;            // Node number
-unsigned int          base_station_number   = 1;            // Number of snow bot for datagram (100 + node)
-unsigned int          total_nodes           = 5;            // Total nodes in the network
+unsigned int          base_station_number   = 3;            // Number of snow bot for datagram (100 + node)
+unsigned int          total_nodes           = 3;            // Total nodes in the network
 
 unsigned int          samplesPerFile        = 8640;         // Maximum samples stored in a file before new log file creation (Default: 30 days * 288 samples per day)
 unsigned int          listen                = 45;           // Time in seconds to listen for incoming or sending outgoing LoRa messages
@@ -116,14 +116,14 @@ bool                  hourlySend            = true;         // Boolean to set if
 unsigned int          send_hours[] = {0, 6, 12, 18};        // Iridium sending hours
 unsigned int          send_hours_size = sizeof(send_hours) / sizeof(long);
 
-unsigned int          sampleInterval        = 3600;         // Sleep duration (in seconds) between data sample acquisitions.
-unsigned int          averageInterval       = 1;            // Number of samples to be averaged for each LoRa transmission.
+unsigned int          sampleInterval        = 600;          // Sleep duration (in seconds) between data sample acquisitions.
+unsigned int          averageInterval       = 6;            // Number of samples to be averaged for each LoRa transmission.
 unsigned int          transmitInterval      = 6;            // Number of average intervals to be included in a single transmission (340 byte limit). Each node LoRa
-															                              // message averaged sample is 24 bytes, so  if you multiply 24 (no. of bytes) by number of nodes by the
-															                              // transmitInterval it should be less than 340 to include all the data.
-															                              // E.g. for 5 nodes one average interval (assuming all LoRa messages are received) would equal 120 bytes
-															                              // (5*24). Therefore you could have a transmitInterval of 2 to get 2 complete average intervals of data sent
-															                              // in a 340 byte RockBlock message.
+                                                            // message averaged sample is 24 bytes, so  if you multiply 24 (no. of bytes) by number of nodes by the
+                                                            // transmitInterval it should be less than 340 to include all the data.
+                                                            // E.g. for 5 nodes one average interval (assuming all LoRa messages are received) would equal 120 bytes
+                                                            // (5*24). Therefore you could have a transmitInterval of 2 to get 2 complete average intervals of data sent
+                                                            // in a 340 byte RockBlock message.
 
 unsigned int          maxRetransmitCounter  = 0;            // Maximum failed data transmissions to reattempt in a single message (340 byte limit). Default: 10
 
@@ -180,6 +180,7 @@ uint32_t                period                 = listen*1000UL; // Set up listen
 #if BASE_STATION
 uint8_t rx_reply[] = "ok";
 #endif
+
 /****************************
 Structure to store and send data 
 ****************************/
@@ -391,7 +392,7 @@ void setup()
 #endif
   
   // Print set-up complete statement
-  Serial.print("Set up complete for SnowBot #"); Serial.println(node);
+  Serial.print("Set up complete for SnowBot #"); Serial.println(node_number);
   
   // Blink LED to indicate setup has completed
   blinkLed(LED_PIN, 10, 100);
@@ -773,7 +774,7 @@ void logData() {
     // Write to microSD card
     if (file.open(fileName, O_APPEND | O_WRITE)) {
       samplesSaved++;   //  Increment sample count of current file
-      file.print(node);
+      file.print(node_number);
       file.write(",");
       file.print(unixtime);
       file.write(",");
@@ -853,7 +854,7 @@ void writeTimestamps() {
 void calculateStatistics() {
 
   // Write data to union
-  tx_message.node = node;
+  tx_message.node = node_number;
   tx_message.voltage = batteryStats.minimum() * 1000;              // Minimum battery voltage (mV)
   tx_message.extTemperature = extTemperatureStats.average() * 100; // Mean temperature (°C)
   tx_message.humidity = humidityStats.average() * 100;             // Mean humidity (%)
