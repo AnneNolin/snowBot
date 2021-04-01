@@ -340,11 +340,11 @@ unsigned int          send_hours_size = sizeof(send_hours) / sizeof(long);
 unsigned int          sampleInterval        = 3600;         // Sleep duration (in seconds) between data sample acquisitions.
 unsigned int          averageInterval       = 1;            // Number of samples to be averaged for each LoRa transmission.
 unsigned int          transmitInterval      = 6;            // Number of average intervals to be included in a single transmission (340 byte limit). Each node LoRa
-// message averaged sample is 24 bytes, so  if you multiply 24 (no. of bytes) by number of nodes by the
-// transmitInterval it should be less than 340 to include all the data.
-// E.g. for 5 nodes one average interval (assuming all LoRa messages are received) would equal 120 bytes
-// (5*24). Therefore you could have a transmitInterval of 2 to get 2 complete average intervals of data sent
-// in a 340 byte RockBlock message.
+		// message averaged sample is 24 bytes, so  if you multiply 24 (no. of bytes) by number of nodes by the
+		// transmitInterval it should be less than 340 to include all the data.
+		// E.g. for 5 nodes one average interval (assuming all LoRa messages are received) would equal 120 bytes
+		// (5*24). Therefore you could have a transmitInterval of 2 to get 2 complete average intervals of data sent
+		// in a 340 byte RockBlock message.
 
 unsigned int          maxRetransmitCounter  = 0;            // Maximum failed data transmissions to reattempt in a single message (340 byte limit). Default: 10
 ```
