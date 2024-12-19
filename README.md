@@ -136,6 +136,7 @@ It is possible to swap out the SHT10 for a wide variety of other temperature and
 ![RockBlock MKII with fully wired SnowBot microcontroller](./img/RockBlock_wiring_1.JPG)
 
 [RockBlock MKII](https://www.rock7.com/products/rockblock-iridium-9602-satellite-modem) with fully wired SnowBot microcontroller
+![sensors_rockblock_9603_pins](https://github.com/user-attachments/assets/8d4a2d3a-07f0-4157-916a-16ab7a7a4bfc)
 
 
 
